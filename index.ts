@@ -19,7 +19,9 @@ async function generateFilteredPages(): Promise<string[]> {
     const sitemap = await fetchSitemap();
     const regex = /<sitemap>\s*<loc>(.*?)<\/loc>\s*<\/sitemap>/g;
 
-    for (const match of sitemap.matchAll(regex)) {
+    const results: RegExpMatchArray[] = [...sitemap.matchAll(regex)];
+    
+    for (const match of results) {
         const cleanedURL = match[1].replace(/&amp;/g, '&');
         const pageContent = await fetchDataFromURL(cleanedURL);
     
